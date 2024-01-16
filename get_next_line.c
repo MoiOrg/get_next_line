@@ -12,22 +12,29 @@
 
 #include "get_next_line.h"
 
-char	*read_file(int fd, char *str)
+char	*read_line(int fd, char *str)
 {
 	char	*buffer;
-	ssize_t	byte_count;
+	size_t	i;
 
-	if (!str)
-		res = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (NULL);
+	while ((i = read(fd, buffer, BUFFER_SIZE) > 0))
+	{
+		buffer[i] = '\0';
+		str = ft_strjoin(str, buffer);
+	}
+	return (str);
 }
 
 char	*get_next_line(int	fd)
 {
 	static char	*buffer;
-	char		*line;
+	size_t		i;
 
-	if (ft < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	buffer = read_file(fd, buffer);
+	buffer = read_line(fd, buffer);
+	return (buffer);
 }
