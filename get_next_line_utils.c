@@ -37,6 +37,19 @@ void	*ft_calloc(size_t count, size_t size)
 	return (str);
 }
 
+char	*ft_strchr(const char *string, int c )
+{
+	char	*str;
+
+	str = (char *)string;
+	while (*str != c && *str != 0)
+		str++;
+	if (*str == c)
+		return (str);
+	else
+		return (NULL);
+}
+
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
