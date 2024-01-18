@@ -6,7 +6,7 @@
 /*   By: kiparis <kiparis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:16:17 by kiparis           #+#    #+#             */
-/*   Updated: 2024/01/18 13:29:08 by kiparis          ###   ########.fr       */
+/*   Updated: 2024/01/18 17:58:51 by kiparis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,10 @@ int	main(void)
     close(fd);
     return 0;
 }
+
+/*str de retour
+buffer memoire tempon pour remplir str
+commencer par mettre le reste qui est dans buffer dans str et clear buffer en
+laissant le surplus pour lappel suivant
+mettre le \0 en fin de ligne derriere le \n
+on peut free le str meme si il y a des données apres le \0*/

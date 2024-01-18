@@ -97,7 +97,7 @@ char	*get_next_line(int fd)
 		return (buffer);
 	}
 	buffer = read_file(fd, buffer);
-	//printf("buffer == %s\n", buffer);
+	printf("buffer == %s|\n", buffer);
 	if (!buffer)
 		return (NULL);
 	//str = ft_line(buffer);
