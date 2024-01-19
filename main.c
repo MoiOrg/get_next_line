@@ -6,20 +6,12 @@
 /*   By: kiparis <kiparis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:16:17 by kiparis           #+#    #+#             */
-/*   Updated: 2024/01/18 17:58:51 by kiparis          ###   ########.fr       */
+/*   Updated: 2024/01/19 15:25:54 by kiparis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 #include <fcntl.h>
-
-void	ft_putstr(char *s)
-{
-	if (!s)
-		return ;
-	write(1, s, ft_strlen(s));
-}
 
 int	main(void)
 {
@@ -32,13 +24,15 @@ int	main(void)
         printf("Error opening file");
         return 1;
 	}
-	while (str = get_next_line(fd))
+	while ((str = get_next_line(fd)))
 	{
-		printf("%s", str);
+		printf("get_next_line == |%s|\n", str);
 	}
     close(fd);
     return 0;
 }
+
+
 
 /*str de retour
 buffer memoire tempon pour remplir str
