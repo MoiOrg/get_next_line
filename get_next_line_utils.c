@@ -12,29 +12,20 @@
 
 #include "get_next_line.h"
 
-void	ft_bzero(void *s, size_t n)
+size_t	ft_count_char(char c, char *str)
 {
-	char	*str;
+	size_t	count;
 	size_t	i;
 
-	str = (char *)s;
 	i = 0;
-	while (i < n)
+	count = 0;
+	while (str[i])
 	{
-		str[i] = '\0';
+		if (str[i] == c)
+			count++;
 		i++;
 	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*str;
-
-	str = malloc(size * count);
-	if (!str)
-		return (NULL);
-	ft_bzero(str, size * count);
-	return (str);
+	return (count);
 }
 
 char	*ft_strchr(const char *string, int c )

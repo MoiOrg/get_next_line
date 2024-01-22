@@ -6,7 +6,7 @@
 /*   By: kiparis <kiparis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:16:17 by kiparis           #+#    #+#             */
-/*   Updated: 2024/01/19 15:25:54 by kiparis          ###   ########.fr       */
+/*   Updated: 2024/01/22 16:04:30 by kiparis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int	main(void)
 {
     int		fd;
+	int		i = 1;
 	char	*str;
 
 	fd = open("test.txt", O_RDONLY);
@@ -26,7 +27,7 @@ int	main(void)
 	}
 	while ((str = get_next_line(fd)))
 	{
-		printf("get_next_line == |%s|\n", str);
+		printf("get_next_line == |%s| attempt %d\n\n", str, i++);
 	}
     close(fd);
     return 0;

@@ -30,4 +30,6 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *string, int c );
 char	*check_line(char *str);
+size_t	ft_count_char(char c, char *str);
+
 #endif

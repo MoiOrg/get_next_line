@@ -12,6 +12,42 @@
 
 #include "get_next_line.h"
 
+char	*ft_buf_clear(char *buf)
+{
+	size_t	i;
+	size_t	j;
+	char	*new;
+
+	i = 0;
+	j = 0;
+	while (buf[i] != '\n')
+		i++;
+	i++;
+	while (buf[i])
+	{
+		new[j] = buf[i];
+		i++;
+		j++;
+	}
+	new[j] = 0;
+	return (new);
+}
+
+char	*ft_line_cut(char *line)
+{
+	char	*new;
+	size_t	i;
+
+	i = 0;
+	while (line[i] != '\n')
+	{
+		new[i] = line[i];
+		i++;
+	}
+	new[i] = '\n';
+	return (new);
+}
+
 char	*check_line(char *buf)
 {
 	size_t	i;
@@ -19,8 +55,10 @@ char	*check_line(char *buf)
 	char	*tmp;
 	char	*str;
 
-	i = BUFFER_SIZE - 1;
+	i = ft_strlen(buf) - 1;
 	str = (char *)malloc(BUFFER_SIZE * sizeof(char));
+	if (!str)
+		return (NULL);
 	if (buf[i] == '\n')
 	{
 		str[0] = 0;
@@ -42,9 +80,10 @@ char	*clear_line(char *line)
 {
 	size_t	len;
 
-	len = ft_strlen(line);
+	len = ft_strlen(line) - 1;
 	while (line[len] != '\n')
 	{
+		//printf("line[len] == |%c|\n", line[len]);
 		line[len] = 0;
 		len--;
 	}
@@ -60,10 +99,11 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
  		return (NULL);
-	line = check_line(buf);
 	static int	i = 1;
-	printf("line == %s, attempt %d\n", line, i++);
-	while(((count = read(fd, buf, BUFFER_SIZE)) > 0))
+	//printf("buf == |%s|, attempt %d\n", buf, i);
+	line = check_line(buf);
+	//printf("line == |%s|, attempt %d\n", line, i++);
+	while(((count = read(fd, buf, BUFFER_SIZE)) > 0) || (count == 0 && buf[0]))
 	{
 		buf[count] = 0;
 		tmp = ft_strjoin(line, buf);
@@ -75,6 +115,12 @@ char	*get_next_line(int fd)
 			break ;
 		}
 	}
+	if (ft_count_char('\n', line) > 1)
+	{
+		ft_buf_clear(buf);
+		line = ft_line_cut(line);
+	}
+	//printf("buf == |%s|\n", buf);
 	if ((count == 0 && ft_strlen(line) == 0) || count < 0)
 	{
 		free(line);
