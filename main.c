@@ -6,7 +6,7 @@
 /*   By: kiparis <kiparis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:16:17 by kiparis           #+#    #+#             */
-/*   Updated: 2024/01/22 16:04:30 by kiparis          ###   ########.fr       */
+/*   Updated: 2024/01/24 16:59:17 by kiparis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(void)
 	while ((str = get_next_line(fd)))
 	{
 		printf("get_next_line == |%s| attempt %d\n\n", str, i++);
+		free(str);
 	}
     close(fd);
     return 0;
