@@ -26,17 +26,6 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*str;
-
-	str = malloc(size * count);
-	if (!str)
-		return (NULL);
-	ft_bzero(str, size * count);
-	return (str);
-}
-
 char	*ft_strchr(const char *string, int c )
 {
 	char	*str;

@@ -27,16 +27,19 @@ char	*stack_rest(char *stack)
 {
 	char	*rest;
 	size_t	len;
+	size_t	stack_len;
 	size_t	j;
 
 	len = 0;
+	stack_len = ft_strlen(stack);
 	while (stack[len] && stack[len] != '\n')
 		len++;
 	if (!stack[len])
 		return (free(stack), NULL);
-	rest = ft_calloc((ft_strlen(stack) - len + 1), sizeof(char));
+	rest = malloc((stack_len - len + 1) * sizeof(char));
+	ft_bzero(rest, (stack_len - len + 1));
 	if (!rest)
-		return (free(stack), NULL);
+		return (NULL);
 	j = 0;
 	len++;
 	while (stack[len + j])
@@ -58,7 +61,7 @@ char	*stack_clean(char *stack)
 		return (NULL);
 	while (stack[i] && stack[i] != '\n')
 		i++;
-	line = ft_calloc(i + 2, sizeof(char));
+	line = malloc((i + 2) * sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -69,6 +72,7 @@ char	*stack_clean(char *stack)
 	}
 	if (stack[i] && stack[i] == '\n')
 		line[i++] = '\n';
+	line[i] = 0;
 	return (line);
 }
 
@@ -78,10 +82,13 @@ char	*read_file(int fd, char *stack)
 	ssize_t		count;
 
 	if (!stack)
-		stack = ft_calloc(1, 1);
+	{
+		stack = malloc(sizeof(char));
+		ft_bzero(stack, 1);
+	}
 	if (!stack)
 		return (NULL);
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (free(stack), NULL);
 	while(((count = read(fd, buffer, BUFFER_SIZE)) > 0))
@@ -91,9 +98,9 @@ char	*read_file(int fd, char *stack)
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
-	if ((count == 0 && ft_strlen(stack) == 0) || count < 0)
-		return (free(stack),free(buffer), NULL);
 	free(buffer);
+	if ((count == 0 && ft_strlen(stack) == 0) || count < 0)
+		return (free(stack), NULL);
 	return (stack);
 }
 
@@ -101,17 +108,16 @@ char	*get_next_line(int fd)
 {
 	static char	*stack;
 	char		*line;
-
+	
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
- 		return (NULL);
+ 		return (free(stack), NULL);
 	stack = read_file(fd, stack);
 	if (!stack)
 		return (NULL);
 	line = stack_clean(stack);
 	if (!line)
 		return (NULL);
+//	printf("stack == %s\n", stack);
 	stack = stack_rest(stack);
-	if (!stack)
-		return (NULL);
 	return (line);
 }
