@@ -16,6 +16,8 @@ char	*join_free(char *stack, char *buffer)
 {
 	char	*temp;
 
+	if (!stack)
+		return (buffer);
 	temp = ft_strjoin(stack, buffer);
 	free(stack);
 	return (temp);
@@ -31,13 +33,10 @@ char	*stack_rest(char *stack)
 	while (stack[len] && stack[len] != '\n')
 		len++;
 	if (!stack[len])
-	{
-		free(stack);
-		return (NULL);
-	}
+		return (free(stack), NULL);
 	rest = ft_calloc((ft_strlen(stack) - len + 1), sizeof(char));
 	if (!rest)
-		return (NULL);
+		return (free(stack), NULL);
 	j = 0;
 	len++;
 	while (stack[len + j])
@@ -70,13 +69,12 @@ char	*stack_clean(char *stack)
 	}
 	if (stack[i] && stack[i] == '\n')
 		line[i++] = '\n';
-	line[i] = 0;
 	return (line);
 }
 
 char	*read_file(int fd, char *stack)
 {
-	char		buffer[BUFFER_SIZE + 1];
+	char		*buffer;
 	ssize_t		count;
 
 	if (!stack)
@@ -84,6 +82,8 @@ char	*read_file(int fd, char *stack)
 	if (!stack)
 		return (NULL);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (free(stack), NULL);
 	while(((count = read(fd, buffer, BUFFER_SIZE)) > 0))
 	{
 		buffer[count] = 0;
@@ -92,7 +92,8 @@ char	*read_file(int fd, char *stack)
 			break ;
 	}
 	if ((count == 0 && ft_strlen(stack) == 0) || count < 0)
-		return (free(stack), NULL);
+		return (free(stack),free(buffer), NULL);
+	free(buffer);
 	return (stack);
 }
 
@@ -107,6 +108,10 @@ char	*get_next_line(int fd)
 	if (!stack)
 		return (NULL);
 	line = stack_clean(stack);
+	if (!line)
+		return (NULL);
 	stack = stack_rest(stack);
+	if (!stack)
+		return (NULL);
 	return (line);
 }
